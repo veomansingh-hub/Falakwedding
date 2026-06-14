@@ -14,13 +14,17 @@
 </head>
 <body>
     <!-- Background Star Particles & Galaxy -->
-    <!-- Background Star Particles & Galaxy -->
     <div id="star-field" aria-hidden="true"></div>
     <canvas id="galaxy-canvas" aria-hidden="true"></canvas>
-
-    <!-- Floating Audio Start Hint -->
-    <div id="audio-hint" class="audio-hint-bar">
-        <span>Tap anywhere or scroll to start Shehnai music 🎵</span>
+    <!-- Entrance Overlay Modal (Tap button to login and activate audio) -->
+    <div id="entrance-overlay" class="entrance-overlay">
+        <div class="entrance-card">
+            <img src="assets/mandala.png" alt="Gold Mandala" class="entrance-mandala">
+            <h2>Welcome to the Celebration</h2>
+            <p>Man Singh &amp; Falak</p>
+            <button id="btn-activate-music" class="btn-gold-pulse">Enter &amp; Play Music</button>
+            <p class="experience-note">Experience with sound on</p>
+        </div>
     </div>
 
     <!-- Floating Audio Control Panel -->

@@ -1443,38 +1443,90 @@ footer {
     letter-spacing: 1px;
 }
 
-/* Audio Autoplay Interaction Hint Bar */
-.audio-hint-bar {
+/* Entrance Overlay Modal */
+.entrance-overlay {
     position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(12, 12, 12, 0.9);
-    border: 1px solid rgba(223, 183, 108, 0.6);
-    color: var(--gold-light);
-    padding: 0.8rem 1.6rem;
-    border-radius: 50px;
-    font-size: 0.85rem;
-    font-family: var(--font-sans);
-    font-weight: 500;
-    z-index: 1000;
-    box-shadow: 0 0 20px rgba(223, 183, 108, 0.4);
-    pointer-events: none;
-    animation: bounce 2s infinite ease-in-out;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    background-image: radial-gradient(circle at center, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
 }
-
-@keyframes bounce {
-    0%, 100% { transform: translate(-50%, 0); }
-    50% { transform: translate(-50%, -8px); }
+.entrance-overlay.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+.entrance-card {
+    background: var(--glass-bg);
+    border: var(--glass-border);
+    padding: 3.5rem;
+    border-radius: 4px;
+    text-align: center;
+    max-width: 460px;
+    width: 90%;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    position: relative;
+}
+.entrance-card::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid rgba(223, 183, 108, 0.15);
+}
+.entrance-mandala {
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 1.5rem auto;
+    display: block;
+    animation: slowSpin 40s linear infinite;
+    filter: drop-shadow(0 0 10px rgba(223, 183, 108, 0.45));
+}
+.entrance-card h2 {
+    font-family: var(--font-serif);
+    font-size: 2.25rem;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+.entrance-card p {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    color: var(--gold-primary);
+    margin-bottom: 2rem;
+    letter-spacing: 2px;
+}
+.experience-note {
+    font-family: var(--font-sans) !important;
+    font-size: 0.75rem !important;
+    color: var(--text-muted) !important;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 2rem !important;
+    margin-bottom: 0 !important;
 }
 
 @media (max-width: 600px) {
-    .audio-hint-bar {
-        font-size: 0.75rem;
-        padding: 0.6rem 1.2rem;
-        width: 90%;
-        text-align: center;
+    .entrance-card {
+        padding: 2rem;
+    }
+    .entrance-card h2 {
+        font-size: 1.85rem;
+    }
+    .entrance-card p {
+        font-size: 1.15rem;
+    }
+    .entrance-mandala {
+        width: 85px;
+        height: 85px;
     }
 }

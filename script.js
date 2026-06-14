@@ -589,25 +589,19 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 4. Interactive Auto-play Shehnai on first page interaction
-    const startAudioOnInteraction = () => {
-        playMusic();
-        const hint = document.getElementById("audio-hint");
-        if (hint) {
-            hint.style.opacity = "0";
-            setTimeout(() => hint.remove(), 600);
-        }
-        document.removeEventListener("click", startAudioOnInteraction);
-        document.removeEventListener("scroll", startAudioOnInteraction);
-        document.removeEventListener("touchstart", startAudioOnInteraction);
-        document.removeEventListener("mousemove", startAudioOnInteraction);
-        document.removeEventListener("keydown", startAudioOnInteraction);
-    };
-    document.addEventListener("click", startAudioOnInteraction);
-    document.addEventListener("scroll", startAudioOnInteraction);
-    document.addEventListener("touchstart", startAudioOnInteraction);
-    document.addEventListener("mousemove", startAudioOnInteraction);
-    document.addEventListener("keydown", startAudioOnInteraction);
+    // 4. Entrance overlay activation trigger
+    const btnActivate = document.getElementById("btn-activate-music");
+    const entranceOverlay = document.getElementById("entrance-overlay");
+
+    if (btnActivate && entranceOverlay) {
+        btnActivate.addEventListener("click", () => {
+            playMusic();
+            entranceOverlay.classList.add("fade-out");
+            setTimeout(() => {
+                entranceOverlay.remove();
+            }, 800);
+        });
+    }
 
     btnAudioToggle.addEventListener("click", toggleMusic);
 
