@@ -16,28 +16,17 @@
     <!-- Background Star Particles & Galaxy -->
     <div id="star-field" aria-hidden="true"></div>
     <canvas id="galaxy-canvas" aria-hidden="true"></canvas>
-    <!-- Entrance Overlay Modal (Tap button to login and activate audio) -->
-    <div id="entrance-overlay" class="entrance-overlay">
-        <div class="entrance-card">
-            <img src="assets/mandala.png" alt="Gold Mandala" class="entrance-mandala">
-            <h2>Welcome to the Celebration</h2>
-            <p>Man Singh &amp; Falak</p>
-            <button id="btn-activate-music" class="btn-gold-pulse">Enter &amp; Play Music</button>
-            <p class="experience-note">Experience with sound on</p>
-        </div>
-    </div>
-
     <!-- Floating Audio Control Panel -->
     <div id="audio-panel" class="audio-control-panel">
         <div class="audio-panel-header">
-            <button id="btn-audio-toggle" aria-label="Toggle music player">
-                <div class="sound-wave" id="sound-wave">
+            <button id="btn-audio-toggle" aria-label="Toggle music player" class="glowing-play-btn">
+                <div class="sound-wave muted" id="sound-wave">
                     <span class="bar"></span>
                     <span class="bar"></span>
                     <span class="bar"></span>
                     <span class="bar"></span>
                 </div>
-                <span id="audio-status-text">Shehnai Playing</span>
+                <span id="audio-status-text">Tap to Play Music</span>
             </button>
             <button id="btn-music-list" aria-label="Choose track">🎵 Select Song</button>
         </div>
@@ -388,6 +377,212 @@
                     </div>
                 </div>
             </div>
+        </section>
+
+        <!-- Section 3.5: Future Journey - Moving to Ireland -->
+        <section id="ireland-section" class="content-section">
+            <div class="section-container">
+                <p class="section-tag">• Our Future Journey •</p>
+                <h2 class="section-title">When We Move to Ireland</h2>
+                <p class="ireland-subtitle">An animated timeline of our dream adventure</p>
+                <div class="gold-divider-line"><span class="ornate-diamond"></span></div>
+
+                <div class="ireland-journey-container">
+                    <!-- Step 1: Dublin / River Liffey -->
+                    <div class="journey-card" id="step-dublin">
+                        <div class="journey-illustration">
+                            <svg class="journey-svg" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="400" height="250" fill="#020a14" rx="10"/>
+                                <circle cx="330" cy="50" r="15" fill="#e5c185" opacity="0.15"/>
+                                <circle cx="330" cy="50" r="10" fill="#f7e0b5" opacity="0.3"/>
+                                
+                                <!-- Abbey Hostel Outline -->
+                                <path d="M40 80 L140 80 L140 200 L40 200 Z" fill="#1b2a47" stroke="url(#gold-grad-light)" stroke-width="1.5"/>
+                                <rect x="55" y="100" width="15" height="25" fill="#f7e0b5" opacity="0.75" class="window-glow"/>
+                                <rect x="80" y="100" width="15" height="25" fill="#f7e0b5" opacity="0.75" class="window-glow"/>
+                                <rect x="110" y="100" width="15" height="25" fill="#dfb76c" opacity="0.4"/>
+                                <rect x="55" y="140" width="15" height="25" fill="#dfb76c" opacity="0.4"/>
+                                <rect x="80" y="140" width="15" height="25" fill="#f7e0b5" opacity="0.75" class="window-glow"/>
+                                <rect x="110" y="140" width="15" height="25" fill="#f7e0b5" opacity="0.75" class="window-glow"/>
+                                <rect x="50" y="180" width="80" height="15" fill="#a87e3b" stroke="url(#gold-grad-light)"/>
+                                <text x="90" y="191" fill="#000" font-family="var(--font-sans)" font-size="8" font-weight="bold" text-anchor="middle">ABBEY HOSTEL</text>
+                                
+                                <!-- Dublin Bridge -->
+                                <path d="M120 180 Q250 140 380 180" stroke="url(#gold-grad-light)" stroke-width="3" fill="none"/>
+                                <path d="M120 180 L120 200 M380 180 L380 200" stroke="url(#gold-grad-light)" stroke-width="2"/>
+                                <path d="M140 173 Q250 148 360 173" stroke="url(#gold-grad-light)" stroke-width="1" fill="none" stroke-dasharray="2 2"/>
+                                
+                                <!-- River Liffey -->
+                                <path d="M0 200 Q100 190 200 200 T400 200 L400 250 L0 250 Z" fill="url(#river-grad)" opacity="0.9"/>
+                                <path d="M0 215 Q150 205 300 215 T400 215" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1.5" fill="none"/>
+                                
+                                <!-- Sitting Characters on Liffey Wall -->
+                                <g class="sitting-couple">
+                                    <circle cx="210" cy="170" r="5" fill="#e5c185"/>
+                                    <path d="M205 175 L215 175 L218 195 L208 195 Z" fill="#0a2240" stroke="url(#gold-grad-light)"/>
+                                    <path d="M208 195 L208 210 L212 210 L212 195" stroke="url(#gold-grad-light)" stroke-width="2"/>
+                                    <circle cx="222" cy="170" r="5" fill="#e5c185"/>
+                                    <path d="M217 175 L227 175 L230 195 L220 195 Z" fill="#b71c1c" stroke="url(#gold-grad-light)"/>
+                                    <path d="M220 195 L220 210 L224 210 L224 195" stroke="url(#gold-grad-light)" stroke-width="2"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="journey-details">
+                            <h3>1. Sitting by River Liffey</h3>
+                            <p class="journey-quote">"When we both move to Ireland, we will sit by the River Liffey in front of the Abbey Hostel, watching the city lights dance on the water..."</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Bus to Galway -->
+                    <div class="journey-card" id="step-bus">
+                        <div class="journey-illustration">
+                            <svg class="journey-svg" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="400" height="250" fill="#011409" rx="10"/>
+                                <path d="M0 160 Q120 120 240 150 T400 140 L400 250 L0 250 Z" fill="#0a3c1d"/>
+                                <path d="M0 180 Q150 160 300 190 T400 170 L400 250 L0 250 Z" fill="#04220e"/>
+                                <path d="M0 210 L400 210" stroke="#dfb76c" stroke-width="16"/>
+                                <path d="M0 210 L400 210" stroke="#fff" stroke-dasharray="10 12" stroke-width="2"/>
+                                
+                                <g class="moving-bus">
+                                    <rect x="120" y="160" width="130" height="40" fill="#1b5e20" rx="6" stroke="url(#gold-grad-light)" stroke-width="1.5"/>
+                                    <rect x="130" y="165" width="20" height="12" fill="#fff" opacity="0.8"/>
+                                    <rect x="155" y="165" width="20" height="12" fill="#fff" opacity="0.8"/>
+                                    <rect x="180" y="165" width="20" height="12" fill="#fff" opacity="0.8"/>
+                                    <rect x="205" y="165" width="20" height="12" fill="#fff" opacity="0.8"/>
+                                    <path d="M230 165 L242 165 L242 180 L230 180 Z" fill="#f7e0b5" opacity="0.9"/>
+                                    <circle cx="150" cy="200" r="10" fill="#111" stroke="url(#gold-grad-light)" stroke-width="1.5"/>
+                                    <circle cx="220" cy="200" r="10" fill="#111" stroke="url(#gold-grad-light)" stroke-width="1.5"/>
+                                    <text x="185" y="190" fill="#dfb76c" font-family="var(--font-sans)" font-size="8" font-weight="bold" text-anchor="middle">GALWAY BUS</text>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="journey-details">
+                            <h3>2. Catching the Bus to Galway</h3>
+                            <p class="journey-quote">"Then we will board the coach to Galway, letting the beautiful rolling green hills of the Irish countryside fly past our window..."</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Athlone -->
+                    <div class="journey-card" id="step-athlone">
+                        <div class="journey-illustration">
+                            <svg class="journey-svg" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="400" height="250" fill="#070c14" rx="10"/>
+                                <g class="athlone-castle">
+                                    <rect x="100" y="70" width="45" height="110" fill="#2d3748" stroke="url(#gold-grad-light)" stroke-width="1.5"/>
+                                    <rect x="235" y="70" width="45" height="110" fill="#2d3748" stroke="url(#gold-grad-light)" stroke-width="1.5"/>
+                                    <rect x="145" y="90" width="90" height="90" fill="#1a202c" stroke="url(#gold-grad-light)" stroke-width="1.5"/>
+                                    <path d="M100 70 L105 70 L105 75 L115 75 L115 70 L125 70 L125 75 L135 75 L135 70 L145 70" stroke="url(#gold-grad-light)" stroke-width="1.5" fill="none"/>
+                                    <path d="M235 70 L240 70 L240 75 L250 75 L250 70 L260 70 L260 75 L270 75 L270 70 L280 70" stroke="url(#gold-grad-light)" stroke-width="1.5" fill="none"/>
+                                    <path d="M175 180 C175 160 205 160 205 180 Z" fill="#4a5568" stroke="url(#gold-grad-light)" stroke-width="1.5"/>
+                                </g>
+                                <path d="M0 180 Q120 165 240 185 T400 175 L400 250 L0 250 Z" fill="url(#river-grad)" opacity="0.85"/>
+                            </svg>
+                        </div>
+                        <div class="journey-details">
+                            <h3>3. Road to Athlone</h3>
+                            <p class="journey-quote">"Moving to Athlone, to walk the halls of Athlone Castle and watch the River Shannon flow in its timeless glory."</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: The Ferrari Road Trip to Downpatrick Head & Dog's Beach -->
+                    <div class="journey-card" id="step-ferrari">
+                        <div class="journey-illustration">
+                            <svg class="journey-svg" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="400" height="250" fill="#04020a" rx="10"/>
+                                <path d="M280 160 L340 160 L350 70 L290 85 Z" fill="#2d3748" stroke="url(#gold-grad-light)" stroke-width="1.5"/>
+                                <line x1="285" y1="100" x2="345" y2="95" stroke="url(#gold-grad-light)" stroke-width="1"/>
+                                <line x1="282" y1="125" x2="342" y2="120" stroke="#dfb76c" stroke-dasharray="3 3"/>
+                                <line x1="280" y1="145" x2="340" y2="140" stroke="url(#gold-grad-light)" stroke-width="1"/>
+                                <path d="M250 200 Q310 180 370 200 L400 250 L220 250 Z" fill="#082244" opacity="0.7"/>
+                                
+                                <path d="M0 180 C80 180 120 210 150 250 L0 250 Z" fill="#e2e8f0" stroke="url(#gold-grad-light)" stroke-width="1"/>
+                                <path d="M0 200 C60 200 90 220 110 250 L0 250 Z" fill="#00bcd4" opacity="0.6"/>
+                                
+                                <path d="M120 250 Q160 170 280 170 T400 190" stroke="#333" stroke-width="14" fill="none"/>
+                                <path d="M120 250 Q160 170 280 170 T400 190" stroke="#fff" stroke-dasharray="5 7" stroke-width="1.5" fill="none"/>
+                                
+                                <g class="ferrari-car">
+                                    <path d="M210 160 C213 154 220 152 235 152 C245 152 250 155 253 160 L265 163 C270 165 272 170 268 175 L200 175 C197 170 199 165 204 163 Z" fill="#d32f2f"/>
+                                    <path d="M215 160 L225 155 L235 155 L238 160 Z" fill="#e2e8f0" opacity="0.8"/>
+                                    <circle cx="212" cy="175" r="7" fill="#111" stroke="url(#gold-grad-light)" stroke-width="1.5"/>
+                                    <circle cx="252" cy="175" r="7" fill="#111" stroke="url(#gold-grad-light)" stroke-width="1.5"/>
+                                    <path d="M265 166 L290 162 L290 172 Z" fill="rgba(255, 235, 170, 0.45)"/>
+                                    <circle cx="226" cy="158" r="3.5" fill="#f7e0b5"/>
+                                    <circle cx="232" cy="158" r="3.5" fill="#f7e0b5"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="journey-details">
+                            <h3>4. Ferrari Road Trip</h3>
+                            <p class="journey-quote">"Then we'll get a red Ferrari, driving to Downpatrick Head, then down to Dog's Beach, with the Irish wind carrying our laughter into the horizons..."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Castles Showcase -->
+                <h3 class="castles-title">• Castles We Will Seek Out •</h3>
+                <div class="castles-gallery">
+                    <!-- Dublin Castle -->
+                    <div class="castle-card">
+                        <div class="castle-outline-container">
+                            <svg viewBox="0 0 100 100" class="castle-icon-svg">
+                                <path d="M10 80 L30 80 L30 50 L50 50 L50 80 L70 80 L70 40 L90 40 L90 80 L100 80" stroke="url(#gold-grad-light)" stroke-width="2" fill="none"/>
+                                <rect x="30" y="25" width="40" height="25" stroke="url(#gold-grad-light)" stroke-width="1.5" fill="none"/>
+                                <circle cx="50" cy="15" r="6" stroke="url(#gold-grad-light)" stroke-width="1.5" fill="none"/>
+                            </svg>
+                        </div>
+                        <h4>Dublin Castle</h4>
+                        <p class="castle-quote">"When we both move to Ireland, we will walk the historic courtyards of Dublin Castle, dreaming of old legends..."</p>
+                    </div>
+
+                    <!-- Athlone Castle -->
+                    <div class="castle-card">
+                        <div class="castle-outline-container">
+                            <svg viewBox="0 0 100 100" class="castle-icon-svg">
+                                <rect x="20" y="30" width="20" height="50" stroke="url(#gold-grad-light)" stroke-width="2" fill="none"/>
+                                <rect x="60" y="30" width="20" height="50" stroke="url(#gold-grad-light)" stroke-width="2" fill="none"/>
+                                <rect x="40" y="45" width="20" height="35" stroke="url(#gold-grad-light)" stroke-width="1.5" fill="none"/>
+                            </svg>
+                        </div>
+                        <h4>Athlone Castle</h4>
+                        <p class="castle-quote">"When we both move to Ireland, we will stand on the ramparts of Athlone Castle, watching the Shannon flow..."</p>
+                    </div>
+
+                    <!-- Dunguaire Castle -->
+                    <div class="castle-card">
+                        <div class="castle-outline-container">
+                            <svg viewBox="0 0 100 100" class="castle-icon-svg">
+                                <rect x="30" y="20" width="40" height="60" stroke="url(#gold-grad-light)" stroke-width="2" fill="none"/>
+                                <path d="M20 80 L30 80 L30 60 L20 60 Z" stroke="url(#gold-grad-light)" stroke-width="1.5" fill="none"/>
+                                <path d="M70 80 L80 80 L80 60 L70 60 Z" stroke="url(#gold-grad-light)" stroke-width="1.5" fill="none"/>
+                            </svg>
+                        </div>
+                        <h4>Dunguaire Castle</h4>
+                        <p class="castle-quote">"When we both move to Ireland, we will explore the majestic Dunguaire Castle in Galway, under the soft Irish rain..."</p>
+                    </div>
+
+                    <!-- Kylemore Abbey -->
+                    <div class="castle-card">
+                        <div class="castle-outline-container">
+                            <svg viewBox="0 0 100 100" class="castle-icon-svg">
+                                <path d="M10 80 L90 80 L80 40 L70 40 L65 50 L35 50 L30 40 L20 40 Z" stroke="url(#gold-grad-light)" stroke-width="2" fill="none"/>
+                                <rect x="40" y="30" width="20" height="20" stroke="url(#gold-grad-light)" stroke-width="1.5" fill="none"/>
+                            </svg>
+                        </div>
+                        <h4>Kylemore Abbey</h4>
+                        <p class="castle-quote">"When we both move to Ireland, we will see our reflections in the lake by Kylemore Abbey, beginning our new chapter..."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <svg style="width:0; height:0; position:absolute;" aria-hidden="true">
+                <defs>
+                    <linearGradient id="river-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#021430"/>
+                        <stop offset="100%" stop-color="#070c14"/>
+                    </linearGradient>
+                </defs>
+            </svg>
         </section>
 
         <!-- Section 4: RSVP Form -->

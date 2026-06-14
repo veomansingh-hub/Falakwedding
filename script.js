@@ -284,6 +284,11 @@ document.addEventListener("DOMContentLoaded", () => {
     audio.crossOrigin = "anonymous";
     audio.volume = 0.35;
 
+    const heartbeatAudio = new Audio();
+    heartbeatAudio.src = "assets/heartbeat.mp3";
+    heartbeatAudio.loop = true;
+    heartbeatAudio.volume = 0;
+
     const btnEnter = document.getElementById("btn-enter");
     const waxSeal = document.getElementById("wax-seal");
     const envelope = document.getElementById("envelope");
@@ -486,9 +491,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (inVarmala) {
-            // Heartbeat sound plays in Varmala, getting louder as they come close
-            heartbeatVolumeScale = Math.min(progress * 1.5, 1.2);
-            playHeartbeatSound();
+            // Heartbeat audio gets louder as couple comes closer
+            heartbeatVolumeScale = Math.min(progress * 1.5, 1.0);
+            heartbeatAudio.volume = heartbeatVolumeScale;
             
             // Shehnai volume fades out as they come close
             audio.volume = Math.max(0.02, 0.35 - (progress * 0.32));
@@ -501,8 +506,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const nextDelay = 1000 - (620 * progress);
             globalHeartbeatTimeout = setTimeout(globalHeartbeatLoop, nextDelay);
         } else {
-            // Outside Varmala: Shehnai volume is normal
+            // Outside Varmala: Shehnai volume is normal, Heartbeat is faded out
             audio.volume = 0.35;
+            heartbeatAudio.volume = 0;
 
             // Sync slow background heartbeat vibration globally
             if (navigator.vibrate) {
@@ -525,6 +531,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
         
+        // Play both Shehnai and Heartbeat loop
+        heartbeatAudio.play().catch(err => {
+            console.warn("Heartbeat audio play blocked: ", err);
+        });
+
         audio.play().then(() => {
             isPlaying = true;
             soundWave.classList.remove("muted");
@@ -544,6 +555,7 @@ document.addEventListener("DOMContentLoaded", () => {
             playMusic();
         } else {
             audio.pause();
+            heartbeatAudio.pause();
             isPlaying = false;
             soundWave.classList.add("muted");
             audioStatusText.textContent = "Music Muted";
