@@ -303,7 +303,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function initWebAudio() {
         if (audioCtx) return;
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        try {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        } catch (e) {
+            console.warn("Web Audio API not supported or blocked: ", e);
+        }
     }
 
     // Plucked Piano Scroll sound synthesizer
@@ -513,8 +517,12 @@ document.addEventListener("DOMContentLoaded", () => {
     function playMusic() {
         initWebAudio();
         
-        if (audioCtx.state === "suspended") {
-            audioCtx.resume();
+        if (audioCtx && audioCtx.state === "suspended") {
+            try {
+                audioCtx.resume();
+            } catch (e) {
+                console.warn("Failed to resume AudioContext: ", e);
+            }
         }
         
         audio.play().then(() => {
