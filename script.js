@@ -48,6 +48,22 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // Setup subtle background planets
+    const subtlePlanets = [
+        { xOffset: -200, yOffset: -90, radius: 22, ring: true, color: "rgba(223, 183, 108, 0.08)" },
+        { xOffset: 240, yOffset: 130, radius: 16, ring: false, color: "rgba(120, 160, 255, 0.07)" }
+    ];
+
+    // Setup Glowing Jellyfish Easter Egg
+    let jellyfish = {
+        x: Math.random() * window.innerWidth,
+        y: window.innerHeight + 150,
+        vy: 0.22,
+        wobble: 0,
+        wobbleSpeed: 0.012,
+        pulse: 0
+    };
+
     // Add initial ambient floating lanterns
     const initialLanternsCount = isMobile ? 4 : 8;
     for (let i = 0; i < initialLanternsCount; i++) {
@@ -89,6 +105,29 @@ document.addEventListener("DOMContentLoaded", () => {
         gCtx.arc(cx, cy, 50, 0, Math.PI * 2);
         gCtx.fill();
 
+        // Render subtle planets
+        subtlePlanets.forEach(p => {
+            const px = cx + p.xOffset;
+            const py = cy + p.yOffset;
+            
+            gCtx.fillStyle = p.color;
+            gCtx.beginPath();
+            gCtx.arc(px, py, p.radius, 0, Math.PI * 2);
+            gCtx.fill();
+            
+            if (p.ring) {
+                gCtx.strokeStyle = "rgba(223, 183, 108, 0.05)";
+                gCtx.lineWidth = 1.5;
+                gCtx.save();
+                gCtx.translate(px, py);
+                gCtx.scale(1.8, 0.4);
+                gCtx.beginPath();
+                gCtx.arc(0, 0, p.radius * 1.25, 0, Math.PI * 2);
+                gCtx.stroke();
+                gCtx.restore();
+            }
+        });
+
         // Render spiral stars
         galaxyStars.forEach(star => {
             star.angle += star.speed;
@@ -101,19 +140,19 @@ document.addEventListener("DOMContentLoaded", () => {
             gCtx.fill();
         });
 
-        // Render Floating Wish Lanterns
+        // Render Floating Wish Lanterns (Made bigger & more pronounced)
         floatingLanterns = floatingLanterns.filter(lantern => {
             lantern.y -= lantern.speed;
             lantern.angle += lantern.wobbleSpeed;
             const lx = lantern.x + Math.sin(lantern.angle) * lantern.wobbleRange;
 
-            const w = 18 * lantern.scale;
-            const h = 24 * lantern.scale;
+            const w = 32 * lantern.scale;
+            const h = 42 * lantern.scale;
 
             gCtx.save();
-            gCtx.shadowBlur = 15;
-            gCtx.shadowColor = "rgba(255, 140, 0, 0.7)";
-            gCtx.fillStyle = "rgba(223, 140, 45, 0.85)";
+            gCtx.shadowBlur = 25;
+            gCtx.shadowColor = "rgba(255, 140, 0, 0.85)";
+            gCtx.fillStyle = "rgba(223, 140, 45, 0.9)";
 
             gCtx.beginPath();
             gCtx.moveTo(lx - w/2, lantern.y);
@@ -123,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
             gCtx.closePath();
             gCtx.fill();
 
-            gCtx.fillStyle = "rgba(255, 235, 170, 0.95)";
+            gCtx.fillStyle = "rgba(255, 235, 170, 0.98)";
             gCtx.beginPath();
             gCtx.arc(lx, lantern.y + h * 0.4, w * 0.25, 0, Math.PI * 2);
             gCtx.fill();
@@ -146,6 +185,63 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             return true;
         });
+
+        // Render Glowing Jellyfish Easter Egg
+        jellyfish.y -= jellyfish.vy;
+        jellyfish.wobble += jellyfish.wobbleSpeed;
+        jellyfish.pulse = Math.sin(jellyfish.wobble * 3.5) * 4;
+
+        const jx = jellyfish.x + Math.sin(jellyfish.wobble) * 12;
+        const jy = jellyfish.y;
+        const jRadius = 26 + jellyfish.pulse; 
+
+        if (jy + jRadius < -50) {
+            jellyfish.y = galaxyCanvas.height + 150;
+            jellyfish.x = Math.random() * galaxyCanvas.width;
+        }
+
+        gCtx.save();
+        gCtx.shadowBlur = 20;
+        gCtx.shadowColor = "rgba(244, 143, 177, 0.65)"; 
+
+        // Bell Dome
+        const jGrad = gCtx.createRadialGradient(jx, jy, 0, jx, jy, jRadius);
+        jGrad.addColorStop(0, "rgba(255, 205, 225, 0.85)");
+        jGrad.addColorStop(0.7, "rgba(244, 143, 177, 0.5)");
+        jGrad.addColorStop(1, "rgba(244, 143, 177, 0)");
+        gCtx.fillStyle = jGrad;
+        gCtx.beginPath();
+        gCtx.arc(jx, jy, jRadius, Math.PI, 0, false);
+        gCtx.quadraticCurveTo(jx + jRadius, jy + 8, jx + jRadius * 0.8, jy + 10);
+        gCtx.quadraticCurveTo(jx, jy + 15, jx - jRadius * 0.8, jy + 10);
+        gCtx.quadraticCurveTo(jx - jRadius, jy + 8, jx - jRadius, jy);
+        gCtx.closePath();
+        gCtx.fill();
+
+        // Baby Silhouette inside Jellyfish Bell
+        gCtx.strokeStyle = "rgba(255, 235, 170, 0.8)";
+        gCtx.lineWidth = 1.6;
+        gCtx.beginPath();
+        gCtx.arc(jx, jy - jRadius * 0.35, 4.5, 0, Math.PI * 2);
+        gCtx.moveTo(jx, jy - jRadius * 0.35 + 4.5);
+        gCtx.quadraticCurveTo(jx + 6, jy - 2, jx - 1, jy + 4);
+        gCtx.stroke();
+
+        // Tentacles
+        gCtx.strokeStyle = "rgba(244, 143, 177, 0.35)";
+        gCtx.lineWidth = 1.2;
+        for (let t = -3; t <= 3; t++) {
+            const txStart = jx + t * (jRadius * 0.22);
+            gCtx.beginPath();
+            gCtx.moveTo(txStart, jy + 8);
+            gCtx.bezierCurveTo(
+                txStart + Math.sin(jellyfish.wobble + t) * 10, jy + jRadius * 0.8,
+                txStart - Math.cos(jellyfish.wobble + t) * 8, jy + jRadius * 1.5,
+                txStart + Math.sin(jellyfish.wobble * 0.5 + t) * 12, jy + jRadius * 2.2
+            );
+            gCtx.stroke();
+        }
+        gCtx.restore();
 
         requestAnimationFrame(animateGalaxy);
     }
@@ -340,11 +436,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     let heartbeatInterval = null;
+    let heartbeatVolumeScale = 0.5;
 
     function playHeartbeatSound() {
         if (!audioCtx || audioCtx.state === "suspended") return;
         
         const now = audioCtx.currentTime;
+        const vol = heartbeatVolumeScale;
         
         // Lub (First lower thump)
         const osc1 = audioCtx.createOscillator();
@@ -352,7 +450,7 @@ document.addEventListener("DOMContentLoaded", () => {
         osc1.type = "sine";
         osc1.frequency.setValueAtTime(55, now);
         osc1.frequency.exponentialRampToValueAtTime(5, now + 0.18);
-        gain1.gain.setValueAtTime(0.9, now);
+        gain1.gain.setValueAtTime(0.9 * vol, now);
         gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
         
         osc1.connect(gain1);
@@ -366,7 +464,7 @@ document.addEventListener("DOMContentLoaded", () => {
         osc2.type = "sine";
         osc2.frequency.setValueAtTime(60, now + 0.22);
         osc2.frequency.exponentialRampToValueAtTime(5, now + 0.4);
-        gain2.gain.setValueAtTime(0.75, now + 0.22);
+        gain2.gain.setValueAtTime(0.75 * vol, now + 0.22);
         gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
         
         osc2.connect(gain2);
@@ -440,11 +538,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // 4. Interactive Auto-play Shehnai on first page interaction
     const startAudioOnInteraction = () => {
         playMusic();
+        const hint = document.getElementById("audio-hint");
+        if (hint) {
+            hint.style.opacity = "0";
+            setTimeout(() => hint.remove(), 600);
+        }
         document.removeEventListener("click", startAudioOnInteraction);
         document.removeEventListener("scroll", startAudioOnInteraction);
+        document.removeEventListener("touchstart", startAudioOnInteraction);
+        document.removeEventListener("mousemove", startAudioOnInteraction);
+        document.removeEventListener("keydown", startAudioOnInteraction);
     };
     document.addEventListener("click", startAudioOnInteraction);
     document.addEventListener("scroll", startAudioOnInteraction);
+    document.addEventListener("touchstart", startAudioOnInteraction);
+    document.addEventListener("mousemove", startAudioOnInteraction);
+    document.addEventListener("keydown", startAudioOnInteraction);
 
     btnAudioToggle.addEventListener("click", toggleMusic);
 
@@ -526,12 +635,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const inView = (rect.top < viewHeight && rect.bottom > 0);
 
         if (inView) {
+            // Calculate visibility ratio to fade heartbeat in and out
+            const visibleHeight = Math.min(rect.bottom, viewHeight) - Math.max(rect.top, 0);
+            const visibilityRatio = Math.max(0, visibleHeight / rect.height);
+            heartbeatVolumeScale = Math.min(visibilityRatio * 1.5, 1.0);
+
             if (!heartbeatInterval) {
                 playHeartbeatSound();
                 heartbeatInterval = setInterval(playHeartbeatSound, 1000);
             }
-            if (navigator.vibrate && Math.random() < 0.25) {
-                navigator.vibrate(12);
+            
+            // Continuous subtle vibration during active scrolls on the varmala stage
+            if (navigator.vibrate && Math.random() < 0.35) {
+                navigator.vibrate(18); // Pronounced scroll vibration
             }
         } else {
             if (heartbeatInterval) {
@@ -565,6 +681,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 charGroom.classList.add("garland-placed");
                 charBride.classList.add("garland-placed");
                 unionBadge.classList.add("show");
+
+                // Pronounced union haptic feedback: double pulse
+                if (navigator.vibrate) {
+                    navigator.vibrate([150, 80, 150]);
+                }
             }
         } else {
             if (isUnionComplete) {
@@ -600,7 +721,7 @@ document.addEventListener("DOMContentLoaded", () => {
             this.vx = Math.cos(this.angle) * this.speed;
             this.vy = Math.sin(this.angle) * this.speed;
             this.trail = [];
-            this.trailLength = 8;
+            this.trailLength = 10;
         }
 
         update() {
@@ -620,36 +741,55 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         draw() {
+            // Draw golden rising trail
             fCtx.beginPath();
-            fCtx.strokeStyle = "rgba(223, 183, 108, 0.45)";
-            fCtx.lineWidth = 2.5;
+            fCtx.strokeStyle = "rgba(223, 183, 108, 0.55)";
+            fCtx.lineWidth = 2.0;
             for (let i = 0; i < this.trail.length; i++) {
                 const pt = this.trail[i];
                 if (i === 0) fCtx.moveTo(pt.x, pt.y);
                 else fCtx.lineTo(pt.x, pt.y);
             }
             fCtx.stroke();
+
+            // Draw rocket cone on top
+            fCtx.save();
+            fCtx.fillStyle = "#ff5722";
+            fCtx.translate(this.x, this.y);
+            fCtx.rotate(this.angle + Math.PI/2);
+            fCtx.beginPath();
+            fCtx.moveTo(0, -6);
+            fCtx.lineTo(-4, 2);
+            fCtx.lineTo(4, 2);
+            fCtx.closePath();
+            fCtx.fill();
+            fCtx.restore();
         }
 
         explode() {
-            const colors = ["#dfb76c", "#f7e0b5", "#ff3838", "#ff7676", "#ff9f1c", "#9b5de5", "#00bbf9"];
+            const colors = ["#dfb76c", "#f7e0b5", "#ff3838", "#ff7676", "#ff9f1c", "#9b5de5", "#00bbf9", "#4caf50", "#e91e63"];
             const color = colors[Math.floor(Math.random() * colors.length)];
-            const particleCount = 130 + Math.floor(Math.random() * 50); 
+            const particleCount = 140 + Math.floor(Math.random() * 60); 
 
             for (let i = 0; i < particleCount; i++) {
                 const angle = Math.random() * Math.PI * 2;
                 const speed = Math.random() * 6.5 + 2.0; 
+                const isConfetti = Math.random() < 0.45; // 45% confetti squares
+
                 particles.push({
                     x: this.x,
                     y: this.y,
                     vx: Math.cos(angle) * speed,
                     vy: Math.sin(angle) * speed,
                     alpha: 1,
-                    decay: Math.random() * 0.012 + 0.006, 
-                    gravity: 0.08,
-                    friction: 0.965,
+                    decay: isConfetti ? (Math.random() * 0.008 + 0.004) : (Math.random() * 0.014 + 0.007), 
+                    gravity: isConfetti ? 0.035 : 0.08, // confetti drifts slower
+                    friction: isConfetti ? 0.98 : 0.965,
                     color: color,
-                    size: Math.random() * 2.8 + 1.0 
+                    size: isConfetti ? (Math.random() * 4 + 2) : (Math.random() * 2.8 + 1.0),
+                    isConfetti: isConfetti,
+                    rotation: Math.random() * Math.PI * 2,
+                    rotationSpeed: Math.random() * 0.08 - 0.04
                 });
             }
         }
@@ -658,7 +798,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function animateFireworks() {
         fCtx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
 
-        if (isUnionComplete && Math.random() < 0.065) {
+        if (isUnionComplete && Math.random() < 0.075) {
             fireworks.push(new FireworkRocket());
         }
 
@@ -681,11 +821,19 @@ document.addEventListener("DOMContentLoaded", () => {
             fCtx.save();
             fCtx.globalAlpha = p.alpha;
             fCtx.fillStyle = p.color;
-            fCtx.shadowBlur = 6;
-            fCtx.shadowColor = p.color;
-            fCtx.beginPath();
-            fCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            fCtx.fill();
+
+            if (p.isConfetti) {
+                p.rotation += p.rotationSpeed;
+                fCtx.translate(p.x, p.y);
+                fCtx.rotate(p.rotation);
+                fCtx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+            } else {
+                fCtx.shadowBlur = 6;
+                fCtx.shadowColor = p.color;
+                fCtx.beginPath();
+                fCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                fCtx.fill();
+            }
             fCtx.restore();
             return true;
         });

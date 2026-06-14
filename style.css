@@ -1442,3 +1442,39 @@ footer {
     margin-bottom: 1.5rem;
     letter-spacing: 1px;
 }
+
+/* Audio Autoplay Interaction Hint Bar */
+.audio-hint-bar {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(12, 12, 12, 0.9);
+    border: 1px solid rgba(223, 183, 108, 0.6);
+    color: var(--gold-light);
+    padding: 0.8rem 1.6rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    z-index: 1000;
+    box-shadow: 0 0 20px rgba(223, 183, 108, 0.4);
+    pointer-events: none;
+    animation: bounce 2s infinite ease-in-out;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, -8px); }
+}
+
+@media (max-width: 600px) {
+    .audio-hint-bar {
+        font-size: 0.75rem;
+        padding: 0.6rem 1.2rem;
+        width: 90%;
+        text-align: center;
+    }
+}
