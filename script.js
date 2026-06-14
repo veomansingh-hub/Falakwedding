@@ -282,6 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
     audio.src = tracks[0]; // Banarasi Dhun as default shehnai track
     audio.loop = true;
     audio.crossOrigin = "anonymous";
+    audio.volume = 0.35;
 
     const btnEnter = document.getElementById("btn-enter");
     const waxSeal = document.getElementById("wax-seal");
@@ -302,21 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function initWebAudio() {
         if (audioCtx) return;
-        
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        audioSource = audioCtx.createMediaElementSource(audio);
-        
-        filterNode = audioCtx.createBiquadFilter();
-        filterNode.type = "lowpass";
-        filterNode.frequency.value = 600;
-        filterNode.Q.value = 1.2;
-
-        gainNode = audioCtx.createGain();
-        gainNode.gain.value = 0.35;
-
-        audioSource.connect(filterNode);
-        filterNode.connect(gainNode);
-        gainNode.connect(audioCtx.destination);
     }
 
     // Plucked Piano Scroll sound synthesizer
@@ -473,6 +460,56 @@ document.addEventListener("DOMContentLoaded", () => {
         osc2.stop(now + 0.4);
     }
 
+    let globalHeartbeatTimeout = null;
+
+    function globalHeartbeatLoop() {
+        if (!isPlaying) {
+            globalHeartbeatTimeout = null;
+            return;
+        }
+
+        let inVarmala = false;
+        let progress = 0;
+        if (varmalaSection) {
+            const rect = varmalaSection.getBoundingClientRect();
+            const viewHeight = window.innerHeight;
+            inVarmala = (rect.top < viewHeight && rect.bottom > 0);
+            if (inVarmala) {
+                const totalScrollable = rect.height + viewHeight;
+                const currentScrolled = viewHeight - rect.top;
+                progress = Math.max(0, Math.min(1, currentScrolled / totalScrollable));
+            }
+        }
+
+        if (inVarmala) {
+            // Heartbeat sound plays in Varmala, getting louder as they come close
+            heartbeatVolumeScale = Math.min(progress * 1.5, 1.2);
+            playHeartbeatSound();
+            
+            // Shehnai volume fades out as they come close
+            audio.volume = Math.max(0.02, 0.35 - (progress * 0.32));
+
+            // Pronounced vibration synced to Varmala heartbeat
+            if (navigator.vibrate) {
+                navigator.vibrate([40, 30, 40]);
+            }
+
+            const nextDelay = 1000 - (620 * progress);
+            globalHeartbeatTimeout = setTimeout(globalHeartbeatLoop, nextDelay);
+        } else {
+            // Outside Varmala: Shehnai volume is normal
+            audio.volume = 0.35;
+
+            // Sync slow background heartbeat vibration globally
+            if (navigator.vibrate) {
+                navigator.vibrate([20, 25, 20]);
+            }
+
+            // Slow heartbeat pattern (1.5 seconds)
+            globalHeartbeatTimeout = setTimeout(globalHeartbeatLoop, 1500);
+        }
+    }
+
     function playMusic() {
         initWebAudio();
         
@@ -484,6 +521,11 @@ document.addEventListener("DOMContentLoaded", () => {
             isPlaying = true;
             soundWave.classList.remove("muted");
             audioStatusText.textContent = trackNames[currentTrackIndex];
+            
+            // Start global heartbeat loop
+            if (!globalHeartbeatTimeout) {
+                globalHeartbeatLoop();
+            }
         }).catch(err => {
             console.error("Audio playback error: ", err);
         });
@@ -497,6 +539,10 @@ document.addEventListener("DOMContentLoaded", () => {
             isPlaying = false;
             soundWave.classList.add("muted");
             audioStatusText.textContent = "Music Muted";
+            if (globalHeartbeatTimeout) {
+                clearTimeout(globalHeartbeatTimeout);
+                globalHeartbeatTimeout = null;
+            }
         }
     }
 
@@ -632,29 +678,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const rect = varmalaSection.getBoundingClientRect();
         const viewHeight = window.innerHeight;
-        const inView = (rect.top < viewHeight && rect.bottom > 0);
-
-        if (inView) {
-            // Calculate visibility ratio to fade heartbeat in and out
-            const visibleHeight = Math.min(rect.bottom, viewHeight) - Math.max(rect.top, 0);
-            const visibilityRatio = Math.max(0, visibleHeight / rect.height);
-            heartbeatVolumeScale = Math.min(visibilityRatio * 1.5, 1.0);
-
-            if (!heartbeatInterval) {
-                playHeartbeatSound();
-                heartbeatInterval = setInterval(playHeartbeatSound, 1000);
-            }
-            
-            // Continuous subtle vibration during active scrolls on the varmala stage
-            if (navigator.vibrate && Math.random() < 0.35) {
-                navigator.vibrate(18); // Pronounced scroll vibration
-            }
-        } else {
-            if (heartbeatInterval) {
-                clearInterval(heartbeatInterval);
-                heartbeatInterval = null;
-            }
-        }
 
         const totalScrollable = rect.height + viewHeight;
         const currentScrolled = viewHeight - rect.top;
