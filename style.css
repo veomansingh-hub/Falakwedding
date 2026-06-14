@@ -975,6 +975,28 @@ footer {
     .rsvp-card {
         padding: 2rem;
     }
+    #varmala-stage {
+        height: 240px;
+        max-width: 100%;
+    }
+    .character {
+        width: 90px;
+        height: 180px;
+    }
+    .groom-garland {
+        left: 20px;
+    }
+    .bride-garland {
+        right: 20px;
+    }
+    .garland {
+        width: 50px;
+        height: 35px;
+        top: 10px;
+    }
+    .character.garland-placed .garland {
+        transform: translateY(28px) scale(1);
+    }
 }
 
 /* Galaxy Canvas Background */

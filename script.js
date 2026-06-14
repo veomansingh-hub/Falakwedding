@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Performance optimization for mobile devices
+    const isMobile = window.innerWidth < 768;
+
     // 1. Star Particles Generator
     const starField = document.getElementById("star-field");
-    const numStars = 60;
+    const numStars = isMobile ? 25 : 60;
     for (let i = 0; i < numStars; i++) {
         const star = document.createElement("div");
         star.className = "star";
@@ -19,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const galaxyCanvas = document.getElementById("galaxy-canvas");
     const gCtx = galaxyCanvas.getContext("2d");
     let galaxyStars = [];
-    const galaxyStarsCount = 850; 
+    const galaxyStarsCount = isMobile ? 320 : 850; 
     let floatingLanterns = [];
 
     function resizeGalaxyCanvas() {
@@ -46,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Add initial ambient floating lanterns
-    const initialLanternsCount = 8;
+    const initialLanternsCount = isMobile ? 4 : 8;
     for (let i = 0; i < initialLanternsCount; i++) {
         floatingLanterns.push({
             x: Math.random() * window.innerWidth,
@@ -545,8 +548,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const glideOffset = Math.min(progress * 2.8, 1);
         
-        const currentGroomX = 220 * glideOffset;
-        const currentBrideX = -220 * glideOffset;
+        const stage = document.getElementById("varmala-stage");
+        const stageWidth = stage ? stage.offsetWidth : 600;
+        const charWidth = charGroom ? charGroom.offsetWidth : 140;
+        const maxGlide = (stageWidth / 2) - (charWidth / 2);
+
+        const currentGroomX = maxGlide * glideOffset;
+        const currentBrideX = -maxGlide * glideOffset;
 
         charGroom.style.setProperty("--groom-x", `${currentGroomX}px`);
         charBride.style.setProperty("--bride-x", `${currentBrideX}px`);
