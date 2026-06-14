@@ -667,7 +667,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const stage = document.getElementById("varmala-stage");
         const stageWidth = stage ? stage.offsetWidth : 600;
         const charWidth = charGroom ? charGroom.offsetWidth : 140;
-        const maxGlide = (stageWidth / 2) - (charWidth / 2);
+        const maxGlide = (stageWidth / 2) - (charWidth * 0.68);
 
         const currentGroomX = maxGlide * glideOffset;
         const currentBrideX = -maxGlide * glideOffset;
